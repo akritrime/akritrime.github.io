@@ -71,86 +71,54 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({8:[function(require,module,exports) {
-var bundleURL = null;
-function getBundleURLCached() {
-  if (!bundleURL) {
-    bundleURL = getBundleURL();
-  }
+})({3:[function(require,module,exports) {
+// import { init } from 'ityped'
+// import Typed from 'typed.js'
 
-  return bundleURL;
-}
+var tag = document.querySelector('#tag');
 
-function getBundleURL() {
-  // Attempt to find the URL of the current script and use that as the base URL
-  try {
-    throw new Error();
-  } catch (err) {
-    var matches = ('' + err.stack).match(/(https?|file|ftp):\/\/[^)\n]+/g);
-    if (matches) {
-      return getBaseURL(matches[0]);
-    }
-  }
+var type = function type(el, options) {
+    var strings = options.strings,
+        typeSpeed = options.typeSpeed,
+        backSpeed = options.backSpeed;
 
-  return '/';
-}
+    var i = 0;
+    var txt = "";
+    var backType = false;
 
-function getBaseURL(url) {
-  return ('' + url).replace(/^((?:https?|file|ftp):\/\/.+)\/[^/]+$/, '$1') + '/';
-}
+    var _type = function _type() {
+        var str = strings[i % strings.length];
+        var delta = backType ? backSpeed : typeSpeed;
 
-exports.getBundleURL = getBundleURLCached;
-exports.getBaseURL = getBaseURL;
-},{}],6:[function(require,module,exports) {
-var bundle = require('./bundle-url');
+        if (backType) {
+            txt = str.substring(0, txt.length - 1);
+        } else {
+            txt = str.substring(0, txt.length + 1);
+        }
+        el.innerHTML = txt;
 
-function updateLink(link) {
-  var newLink = link.cloneNode();
-  newLink.onload = function () {
-    link.remove();
-  };
-  newLink.href = link.href.split('?')[0] + '?' + Date.now();
-  link.parentNode.insertBefore(newLink, link.nextSibling);
-}
+        if (!backType && txt === str) {
+            backType = true;
+            delta = 1500;
+        } else if (backType && txt === '') {
+            backType = false;
+            i++;
+            delta = 750;
+        }
+        setTimeout(_type, delta);
+    };
 
-var cssTimeout = null;
-function reloadCSS() {
-  if (cssTimeout) {
-    return;
-  }
+    _type();
+};
 
-  cssTimeout = setTimeout(function () {
-    var links = document.querySelectorAll('link[rel="stylesheet"]');
-    for (var i = 0; i < links.length; i++) {
-      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
-        updateLink(links[i]);
-      }
-    }
-
-    cssTimeout = null;
-  }, 50);
-}
-
-module.exports = reloadCSS;
-},{"./bundle-url":8}],5:[function(require,module,exports) {
-
-        var reloadCSS = require('_css_loader');
-        module.hot.dispose(reloadCSS);
-        module.hot.accept(reloadCSS);
-      
-},{"_css_loader":6}],4:[function(require,module,exports) {
-
-        var reloadCSS = require('_css_loader');
-        module.hot.dispose(reloadCSS);
-        module.hot.accept(reloadCSS);
-      
-},{"./leaves-pattern.png":[["dbd7829845be4c3112434e62925d013e.png",7],7],"_css_loader":6}],2:[function(require,module,exports) {
-'use strict';
-
-require('normalize.css');
-
-require('./index.scss');
-},{"normalize.css":5,"./index.scss":4}],14:[function(require,module,exports) {
+type(tag, {
+    strings: ['FRONTEND', 'BACKEND', 'FULLSTACK'],
+    typeSpeed: 300,
+    backSpeed: 150
+    // loop: true
+    // showCursor: false
+});
+},{}],9:[function(require,module,exports) {
 
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
@@ -273,5 +241,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.require, id);
   });
 }
-},{}]},{},[14,2])
-//# sourceMappingURL=/dist/akritrime.github.io.map
+},{}]},{},[9,3])
+//# sourceMappingURL=/dist/41def17ffeca135a6f4f005ccd77d8e2.map
