@@ -1,5 +1,496 @@
-require=function(r,e,n){function t(n,o){function i(r){return t(i.resolve(r))}function f(e){return r[n][1][e]||e}if(!e[n]){if(!r[n]){var c="function"==typeof require&&require;if(!o&&c)return c(n,!0);if(u)return u(n,!0);var l=new Error("Cannot find module '"+n+"'");throw l.code="MODULE_NOT_FOUND",l}i.resolve=f;var s=e[n]=new t.Module(n);r[n][0].call(s.exports,i,s,s.exports)}return e[n].exports}function o(r){this.id=r,this.bundle=t,this.exports={}}var u="function"==typeof require&&require;t.isParcelRequire=!0,t.Module=o,t.modules=r,t.cache=e,t.parent=u;for(var i=0;i<n.length;i++)t(n[i]);return t}({12:[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0});var t=function(){function t(t,i){for(var e=0;e<i.length;e++){var s=i[e];s.enumerable=s.enumerable||!1,s.configurable=!0,"value"in s&&(s.writable=!0),Object.defineProperty(t,s.key,s)}}return function(i,e,s){return e&&t(i.prototype,e),s&&t(i,s),i}}();function i(t,i){if(!(t instanceof i))throw new TypeError("Cannot call a class as a function")}var e=exports.Vector=function(){function e(t,s,h){i(this,e),this.x=t,this.y=s,this.z=h}return t(e,[{key:"add",value:function(t){"number"==typeof this.x&&t.x&&(this.x+=t.x),"number"==typeof this.y&&t.y&&(this.y+=t.y),"number"==typeof this.z&&t.z&&(this.z+=t.z)}},{key:"sub",value:function(t){"number"==typeof this.x&&t.x&&(this.x-=t.x),"number"==typeof this.y&&t.y&&(this.y-=t.y),"number"==typeof this.z&&t.z&&(this.z-=t.z)}},{key:"scalar_mul",value:function(t){"number"==typeof this.x&&(this.x*=t),"number"==typeof this.y&&(this.y*=t),"number"==typeof this.z&&(this.z*=t)}},{key:"scalar_div",value:function(t){"number"==typeof this.x&&(this.x/=t),"number"==typeof this.y&&(this.y/=t),"number"==typeof this.z&&(this.z/=t)}},{key:"mag",value:function(){return Math.sqrt(this.x*this.x+this.y*this.y)}},{key:"normalize",value:function(){var t=this.mag();0!==t&&this.scalar_div(t)}},{key:"limit",value:function(t,i){this.x&&this.x>i?this.x=i:this.x&&this.x<t&&(this.x=t),this.y&&this.y>i?this.y=i:this.y&&this.y<t&&(this.y=t),this.z&&this.z>i?this.z=i:this.z&&this.z<t&&(this.z=t)}}]),e}(),s=exports.Mover=function(){function s(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:1,h=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new e(0,0),n=arguments.length>2&&void 0!==arguments[2]?arguments[2]:new e(0,0),o=arguments.length>3&&void 0!==arguments[3]?arguments[3]:new e(0,0);i(this,s),this.loc=h,this.vel=n,this.acc=o,this.mass=t}return t(s,[{key:"applyForce",value:function(t){t.scalar_div(this.mass),this.acc.add(t)}},{key:"update",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:-2,i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:2;this.loc.add(this.vel),this.vel.add(this.acc),"number"==typeof t&&this.vel.limit(t,i)}},{key:"display",value:function(t,i){var e=this.loc;i(e.x,e.y)}},{key:"checkEdges",value:function(t){var i=this,e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:-10,s=arguments.length>2&&void 0!==arguments[2]?arguments[2]:-10,h=void 0,n=void 0;h=e<0?function(t){i.loc.x=t}:function(e){i.loc.x=t.width-e,i.vel.x*=-1},n=s<0?function(t){i.loc.y=t}:function(e){i.loc.y=t.height-e,i.vel.y*=-1},this.loc.x+e>t.width?h(e):this.loc.x-e<0&&h(t.width-e),this.loc.y+s>t.height?n(s):this.loc.y-s<0&&n(t.height-s)}}]),s}();
-},{}],4:[function(require,module,exports) {
-"use strict";var t=function(){return function(t,e){if(Array.isArray(t))return t;if(Symbol.iterator in Object(t))return function(t,e){var r=[],n=!0,i=!1,a=void 0;try{for(var o,c=t[Symbol.iterator]();!(n=(o=c.next()).done)&&(r.push(o.value),!e||r.length!==e);n=!0);}catch(t){i=!0,a=t}finally{try{!n&&c.return&&c.return()}finally{if(i)throw a}}return r}(t,e);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}(),e=require("./utils"),r=document.querySelector("main"),n=document.createElement("canvas"),i=n.getContext("2d");function a(t){t.width=r.clientWidth,t.height=r.clientHeight}n.style.zIndex="-1",n.style.position="absolute",r.appendChild(n);var o=["rgba(98, 238, 247, 0.7)","rgba(24, 223, 245, 0.7)","rgba(19, 177, 194, 0.7)","rgba(76, 76, 255, 0.7)","rgba(0, 0, 255, 0.7)","rgba(0, 0, 204, 0.7)"];function c(t){return function(e,r){var a=e>n.width/2?"#bfbfbf":"#008246";i.beginPath(),i.arc(e,r,t,0,2*Math.PI,!1),i.fillStyle=a,i.fill()}}function u(t,r,i){return Array(t).fill(0).map(function(t){return[new e.Mover(1,new e.Vector(Math.random()*n.width,Math.random()*n.height)),c(Math.random()*i+r)]})}var l=function(r,a,o){return function(c){var u=t(c,2),l=u[0],f=u[1],h=new e.Vector(d.x,d.y);h.sub(l.loc),h.normalize(),h.scalar_mul(o),l.applyForce(h),l.update(r,a),l.acc.scalar_mul(0),l.checkEdges(n),l.display(i,f)}},d=new e.Vector(0,0),f=u(500,0,5);function h(){a(n),(f=u(500,0,5)).forEach(function(t){return t[0].display(i,t[1])})}function s(){window.requestAnimationFrame(s),i.clearRect(0,0,n.width,n.height),f.forEach(l(-5,5,.2))}r.addEventListener("mousemove",function(t){d=new e.Vector(n.width-t.x,t.y)}),h(),s(),window.addEventListener("resize",h);
-},{"./utils":12}]},{},[4])
+// modules are defined as an array
+// [ module function, map of requires ]
+//
+// map of requires is short require name -> numeric require
+//
+// anything defined in a previous bundle is accessed via the
+// orig method which is the require for previous bundles
+
+// eslint-disable-next-line no-global-assign
+require = (function (modules, cache, entry) {
+  // Save the require from previous bundle to this closure if any
+  var previousRequire = typeof require === "function" && require;
+
+  function newRequire(name, jumped) {
+    if (!cache[name]) {
+      if (!modules[name]) {
+        // if we cannot find the module within our internal map or
+        // cache jump to the current global require ie. the last bundle
+        // that was added to the page.
+        var currentRequire = typeof require === "function" && require;
+        if (!jumped && currentRequire) {
+          return currentRequire(name, true);
+        }
+
+        // If there are other bundles on this page the require from the
+        // previous one is saved to 'previousRequire'. Repeat this as
+        // many times as there are bundles until the module is found or
+        // we exhaust the require chain.
+        if (previousRequire) {
+          return previousRequire(name, true);
+        }
+
+        var err = new Error('Cannot find module \'' + name + '\'');
+        err.code = 'MODULE_NOT_FOUND';
+        throw err;
+      }
+
+      localRequire.resolve = resolve;
+
+      var module = cache[name] = new newRequire.Module(name);
+
+      modules[name][0].call(module.exports, localRequire, module, module.exports);
+    }
+
+    return cache[name].exports;
+
+    function localRequire(x){
+      return newRequire(localRequire.resolve(x));
+    }
+
+    function resolve(x){
+      return modules[name][1][x] || x;
+    }
+  }
+
+  function Module(moduleName) {
+    this.id = moduleName;
+    this.bundle = newRequire;
+    this.exports = {};
+  }
+
+  newRequire.isParcelRequire = true;
+  newRequire.Module = Module;
+  newRequire.modules = modules;
+  newRequire.cache = cache;
+  newRequire.parent = previousRequire;
+
+  for (var i = 0; i < entry.length; i++) {
+    newRequire(entry[i]);
+  }
+
+  // Override the current require with this new one
+  return newRequire;
+})({18:[function(require,module,exports) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Vector = exports.Vector = function () {
+    function Vector(x, y, z) {
+        _classCallCheck(this, Vector);
+
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
+    _createClass(Vector, [{
+        key: 'add',
+        value: function add(v) {
+            if (typeof this.x === 'number' && v.x) this.x += v.x;
+            if (typeof this.y === 'number' && v.y) this.y += v.y;
+            if (typeof this.z === 'number' && v.z) this.z += v.z;
+        }
+    }, {
+        key: 'sub',
+        value: function sub(v) {
+            if (typeof this.x === 'number' && v.x) this.x -= v.x;
+            if (typeof this.y === 'number' && v.y) this.y -= v.y;
+            if (typeof this.z === 'number' && v.z) this.z -= v.z;
+        }
+    }, {
+        key: 'scalar_mul',
+        value: function scalar_mul(v) {
+            if (typeof this.x === 'number') this.x *= v;
+            if (typeof this.y === 'number') this.y *= v;
+            if (typeof this.z === 'number') this.z *= v;
+        }
+    }, {
+        key: 'scalar_div',
+        value: function scalar_div(v) {
+            if (typeof this.x === 'number') this.x /= v;
+            if (typeof this.y === 'number') this.y /= v;
+            if (typeof this.z === 'number') this.z /= v;
+        }
+    }, {
+        key: 'mag',
+        value: function mag() {
+            return Math.sqrt(this.x * this.x + this.y * this.y);
+        }
+    }, {
+        key: 'normalize',
+        value: function normalize() {
+            var m = this.mag();
+            if (m !== 0) this.scalar_div(m);
+        }
+    }, {
+        key: 'limit',
+        value: function limit(min, max) {
+            if (this.x && this.x > max) {
+                this.x = max;
+            } else if (this.x && this.x < min) {
+                this.x = min;
+            }
+
+            if (this.y && this.y > max) {
+                this.y = max;
+            } else if (this.y && this.y < min) {
+                this.y = min;
+            }
+
+            if (this.z && this.z > max) {
+                this.z = max;
+            } else if (this.z && this.z < min) {
+                this.z = min;
+            }
+        }
+    }]);
+
+    return Vector;
+}();
+
+var Mover = exports.Mover = function () {
+    function Mover() {
+        var mass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+        var loc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new Vector(0, 0);
+        var vel = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : new Vector(0, 0);
+        var acc = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : new Vector(0, 0);
+
+        _classCallCheck(this, Mover);
+
+        this.loc = loc;
+        this.vel = vel;
+        this.acc = acc;
+        this.mass = mass;
+    }
+
+    _createClass(Mover, [{
+        key: 'applyForce',
+        value: function applyForce(force) {
+            force.scalar_div(this.mass);
+            this.acc.add(force);
+        }
+    }, {
+        key: 'update',
+        value: function update() {
+            var minVel = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : -2;
+            var maxVel = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2;
+
+            this.loc.add(this.vel);
+            this.vel.add(this.acc);
+            if (typeof minVel === 'number') this.vel.limit(minVel, maxVel);
+            // this.acc.scalar_mul(0)
+            // this.checkEdges()
+        }
+    }, {
+        key: 'display',
+        value: function display(CTX, shape) {
+            var _loc = this.loc,
+                x = _loc.x,
+                y = _loc.y;
+
+            shape(x, y);
+        }
+    }, {
+        key: 'checkEdges',
+        value: function checkEdges(canvas) {
+            var _this = this;
+
+            var diff_x = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -10;
+            var diff_y = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : -10;
+
+            var f_x = void 0;
+            var f_y = void 0;
+            if (diff_x < 0) {
+                f_x = function f_x(x) {
+                    _this.loc.x = x;
+                };
+            } else {
+                f_x = function f_x(x) {
+                    _this.loc.x = canvas.width - x;
+                    _this.vel.x *= -1;
+                };
+            }
+
+            if (diff_y < 0) {
+                f_y = function f_y(y) {
+                    _this.loc.y = y;
+                };
+            } else {
+                f_y = function f_y(y) {
+                    _this.loc.y = canvas.height - y;
+                    _this.vel.y *= -1;
+                };
+            }
+
+            if (this.loc.x + diff_x > canvas.width) {
+                f_x(diff_x);
+            } else if (this.loc.x - diff_x < 0) {
+                f_x(canvas.width - diff_x);
+            }
+
+            if (this.loc.y + diff_y > canvas.height) {
+                f_y(diff_y);
+            } else if (this.loc.y - diff_y < 0) {
+                f_y(canvas.height - diff_y);
+            }
+        }
+    }]);
+
+    return Mover;
+}();
+},{}],17:[function(require,module,exports) {
+'use strict';
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _utils = require('./utils');
+
+var main = document.querySelector('main');
+var canvas = document.createElement('canvas');
+var CTX = canvas.getContext('2d');
+canvas.style.zIndex = "-1";
+canvas.style.position = "absolute";
+main.appendChild(canvas);
+// canvas.style.background = "black"
+function resizeCanvas(canvas) {
+    canvas.width = main.clientWidth;
+    canvas.height = main.clientHeight;
+}
+
+var colors_blue = [
+// "rgba(12, 107, 117, 0.7)",
+"rgba(98, 238, 247, 0.7)", "rgba(24, 223, 245, 0.7)",
+// "rgba(47, 110, 117, 0.7)",
+"rgba(19, 177, 194, 0.7)", "rgba(76, 76, 255, 0.7)", "rgba(0, 0, 255, 0.7)",
+// "rgba(38, 38, 127, 0.7)",
+"rgba(0, 0, 204, 0.7)"];
+
+// const colors_blue = [
+//     // "rgba(118, 63, 41, 0.7)",
+//     "rgba(247, 185, 161, 0.7)",
+//     "rgba(246, 130, 86, 0.7)",
+//     // "rgba(118, 88, 77, 0.7)",
+//     "rgba(195, 103, 68, 0.7)"
+// ]
+
+// const colors_blue = [
+//     // "rgba(0, 0, 127, 0.7)",
+//     "rgba(76, 76, 255, 0.7)",
+//     "rgba(0, 0, 255, 0.7)",
+//     // "rgba(38, 38, 127, 0.7)",
+//     "rgba(0, 0, 204, 0.7)"
+// ]
+
+function mover_shape(radius) {
+    return function (x, y) {
+        var color = x > canvas.width / 2 ? "rgba(0, 0, 204, 0.7)" : "#008246";
+        CTX.beginPath();
+        CTX.arc(x, y, radius, 0, Math.PI * 2, false);
+        CTX.fillStyle = color;
+        CTX.fill();
+        // CTX.strokeStyle = color
+        // drawLine(mouse.x, mouse.y, x, y, CTX)
+        // CTX.fillRect(x, y, radius, radius)
+    };
+}
+
+function fill_ms(num, min_radius, max_radius) {
+    return Array(num).fill(0).map(function (v) {
+        var m = new _utils.Mover(1, new _utils.Vector(Math.random() * canvas.width, Math.random() * canvas.height));
+
+        var radius = Math.random() * max_radius + min_radius;
+        // let color = colors[~~(Math.random() * colors.length)]
+        var shape = mover_shape(radius);
+        return [m, shape];
+    });
+}
+
+var update = function update(minVel, maxVel, acc) {
+    return function (_ref) {
+        var _ref2 = _slicedToArray(_ref, 2),
+            m = _ref2[0],
+            shape = _ref2[1];
+
+        var dir = new _utils.Vector(mouse.x, mouse.y);
+
+        dir.sub(m.loc);
+
+        dir.normalize();
+        // console.log(dir.mag)
+        dir.scalar_mul(acc);
+
+        m.applyForce(dir);
+
+        m.update(minVel, maxVel);
+        m.acc.scalar_mul(0);
+        m.checkEdges(canvas);
+        m.display(CTX, shape);
+    };
+};
+
+var mouse = new _utils.Vector(0, 0);
+// let ms_red = fill_ms(250, colors_red, 2, 10);
+var ms_yellow = fill_ms(100, 0, 5);
+
+function init() {
+    resizeCanvas(canvas);
+    // ms_red = fill_ms(250, colors_red, 2, 10)
+    ms_yellow = fill_ms(100, 0, 5);
+
+    // ms_red.forEach(m => m[0].display(CTX, m[1]))
+    ms_yellow.forEach(function (m) {
+        return m[0].display(CTX, m[1]);
+    });
+}
+
+function animate() {
+    window.requestAnimationFrame(animate);
+    CTX.clearRect(0, 0, canvas.width, canvas.height);
+    ms_yellow.forEach(update(-2, 2, 0.002));
+    // ms_red.forEach(update(-10, 10, 0.5))
+}
+
+main.addEventListener("mousemove", function (e) {
+    // const x = map(perlinOctave(e.x), [-1, 1], [200, canvas.width - 200])
+    // const y = map(perlinOctave(e.y), [-1, 1], [200, canvas.height - 200])
+    mouse = new _utils.Vector(canvas.width - e.x, e.y);
+});
+
+init();
+animate();
+
+// window.addEventListener("click", init)
+window.addEventListener("resize", init);
+},{"./utils":18}],16:[function(require,module,exports) {
+
+var global = (1, eval)('this');
+var OldModule = module.bundle.Module;
+function Module(moduleName) {
+  OldModule.call(this, moduleName);
+  this.hot = {
+    accept: function (fn) {
+      this._acceptCallback = fn || function () {};
+    },
+    dispose: function (fn) {
+      this._disposeCallback = fn;
+    }
+  };
+}
+
+module.bundle.Module = Module;
+
+var parent = module.bundle.parent;
+if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
+  var hostname = '' || location.hostname;
+  var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '32971' + '/');
+  ws.onmessage = function (event) {
+    var data = JSON.parse(event.data);
+
+    if (data.type === 'update') {
+      data.assets.forEach(function (asset) {
+        hmrApply(global.require, asset);
+      });
+
+      data.assets.forEach(function (asset) {
+        if (!asset.isNew) {
+          hmrAccept(global.require, asset.id);
+        }
+      });
+    }
+
+    if (data.type === 'reload') {
+      ws.close();
+      ws.onclose = function () {
+        location.reload();
+      };
+    }
+
+    if (data.type === 'error-resolved') {
+      console.log('[parcel] ✨ Error resolved');
+    }
+
+    if (data.type === 'error') {
+      console.error('[parcel] 🚨  ' + data.error.message + '\n' + 'data.error.stack');
+    }
+  };
+}
+
+function getParents(bundle, id) {
+  var modules = bundle.modules;
+  if (!modules) {
+    return [];
+  }
+
+  var parents = [];
+  var k, d, dep;
+
+  for (k in modules) {
+    for (d in modules[k][1]) {
+      dep = modules[k][1][d];
+      if (dep === id || Array.isArray(dep) && dep[dep.length - 1] === id) {
+        parents.push(+k);
+      }
+    }
+  }
+
+  if (bundle.parent) {
+    parents = parents.concat(getParents(bundle.parent, id));
+  }
+
+  return parents;
+}
+
+function hmrApply(bundle, asset) {
+  var modules = bundle.modules;
+  if (!modules) {
+    return;
+  }
+
+  if (modules[asset.id] || !bundle.parent) {
+    var fn = new Function('require', 'module', 'exports', asset.generated.js);
+    asset.isNew = !modules[asset.id];
+    modules[asset.id] = [fn, asset.deps];
+  } else if (bundle.parent) {
+    hmrApply(bundle.parent, asset);
+  }
+}
+
+function hmrAccept(bundle, id) {
+  var modules = bundle.modules;
+  if (!modules) {
+    return;
+  }
+
+  if (!modules[id] && bundle.parent) {
+    return hmrAccept(bundle.parent, id);
+  }
+
+  var cached = bundle.cache[id];
+  if (cached && cached.hot._disposeCallback) {
+    cached.hot._disposeCallback();
+  }
+
+  delete bundle.cache[id];
+  bundle(id);
+
+  cached = bundle.cache[id];
+  if (cached && cached.hot && cached.hot._acceptCallback) {
+    cached.hot._acceptCallback();
+    return true;
+  }
+
+  return getParents(global.require, id).some(function (id) {
+    return hmrAccept(global.require, id);
+  });
+}
+},{}]},{},[16,17])
+//# sourceMappingURL=/dist/69e577917a9bf3c99f6d1d94fbe5d2ae.map
