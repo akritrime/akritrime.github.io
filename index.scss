@@ -1,0 +1,164 @@
+@import "~bootstrap/scss/_functions";
+@import "~bootstrap/scss/_variables";
+@import "~bootstrap/scss/_mixins";
+
+@import "~bootstrap/scss/_reboot";
+@import "~bootstrap/scss/_grid";
+@import "~bootstrap/scss/utilities/_sizing";
+// @import "~bootstrap/scss/utilities/_spacing";
+@import "~bootstrap/scss/utilities/_borders";
+@import "~bootstrap/scss/utilities/_flex";
+@import "~bootstrap/scss/utilities/_display";
+
+$green: #8ee4af;
+
+body {
+	background-color: #eee;
+	color: #1e1e1e;
+}
+
+.f-heading {
+	// font-family: Questrial, sans-serif;
+	// font-family: 'Libre Franklin', sans-serif;
+	// font-family: 'Rakkas', cursive;
+	font-family: 'Mr Dafoe', cursive;
+}
+
+.f-content {
+	// font-family: 'IBM Plex Serif', serif;
+	// font-family: 'Source Sans Pro', sans-serif;
+	font-family: 'Libre Franklin', sans-serif;
+}
+
+@each $fw in (100, 300, 400, 600, 700) {
+	.fw-#{$fw} {
+		font-weight: $fw;
+	}
+}
+
+.link {
+	color: $green !important;
+	text-decoration: underline;
+}
+
+.bg-black {
+	background: #111;
+}
+
+.fixed {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+}
+
+.bg-div {
+	z-index: -1;
+}
+
+.italic {
+	font-style: italic;
+}
+
+.name {
+	font-size: 30px;
+}
+
+// @each $ln, $clr in ( rs: #dea584, py: #3572A5, js: #f1e05a, rb: #701516, php: #4F5D95, vue: #2c3e50, react: #61dafb, html: #e34c26, css: #563d7c ) {
+// 	.#{$ln} {
+// 		color: $clr !important;
+// 	}
+// }
+
+.nav {
+	padding: 20px;
+	position: fixed;
+	top: 0;
+	z-index: 10;
+}
+
+.no-margin {
+	margin: 0;
+}
+
+
+.icons {
+	font-size: 24px;
+	margin-top: 24px;
+	* {
+		margin-right: 12px;
+		color: $green !important; 
+  		transition: all .3s;
+	}
+
+	>*:hover {
+		filter:drop-shadow(2px 2px 0px #eee);
+		// transform: scale(2);
+	}
+}
+
+.min-vh-50 {
+	min-height: 50vh;
+}
+
+#a {
+	font-size: 72px;
+	line-height: 0;
+	font-weight: 100;
+	background: $green;
+}
+
+#dot {
+	color: $green
+}
+
+#hello {
+	font-size: 108px;
+	line-height: 0.8;
+	// position: absolute;
+	// top: 60%;
+}
+
+
+#sayhi {
+  width: 180px;
+  z-index: 2;
+  background-color: #111;
+  color: #eee;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: .3s;
+  box-shadow: 4px 4px 0 0 $green;
+  transform: translateX(0) translateY(0);
+  height: 56px;
+//   font-size: 20px;
+}
+
+#sayhi:hover {
+  /* transform: translateX(4px) translateY(4px); */
+  box-shadow: 8px 8px 0 0 $green;
+  transform: scale(1.01);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+.bg-black {
+	* {
+		color: white
+	}
+
+	#sayhi {
+		background: #eee;
+		color: #111;
+	}
+
+	.bg-div {
+		* {
+			border-color: #eeeeee30 !important;
+		}
+	}
+}

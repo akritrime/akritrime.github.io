@@ -1,0 +1,32 @@
+{
+  "name": "akritrime.github.io",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -rf dist && parcel build index.pug --no-source-maps --experimental-scope-hoisting",
+    "start": "parcel index.pug"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akritrime/akritrime.github.io.git"
+  },
+  "author": "akritrime",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akritrime/akritrime.github.io/issues"
+  },
+  "homepage": "https://github.com/akritrime/akritrime.github.io#readme",
+  "dependencies": {
+    "bootstrap": "^4.5.0",
+    "parcel": "^1.12.4",
+    "@fortawesome/fontawesome-svg-core": "^1.2.30",
+    "@fortawesome/free-brands-svg-icons": "^5.14.0"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4",
+    "pug": "^3.0.0",
+    "sass": "^1.26.10"
+  }
+}
